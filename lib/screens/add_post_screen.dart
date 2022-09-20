@@ -66,10 +66,11 @@ class _AddPostScreenState extends State<AddPostScreen> {
     });
     // start the loading
     try {
+      if (_file == null) return;
       // upload to storage and db
       String res = await FireStoreMethods().uploadPost(
         _descriptionController.text,
-        _file!,
+        _file as Uint8List,
         uid,
         username,
         profImage,

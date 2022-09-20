@@ -38,6 +38,11 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   void signUpUser() async {
+    if (_image == null) {
+      showSnackBar(context, 'Please select a profile picture');
+      return;
+    }
+
     // set loading to true
     setState(() {
       _isLoading = true;
@@ -45,11 +50,12 @@ class _SignupScreenState extends State<SignupScreen> {
 
     // signup user using our authmethodds
     String res = await AuthMethods().signUpUser(
-        email: _emailController.text,
-        password: _passwordController.text,
-        username: _usernameController.text,
-        bio: _bioController.text,
-        file: _image!);
+      email: _emailController.text,
+      password: _passwordController.text,
+      username: _usernameController.text,
+      bio: _bioController.text,
+      file: _image!,
+    );
     // if string returned is sucess, user has been created
     if (res == "success") {
       setState(() {
@@ -84,28 +90,21 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: SafeArea(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 32),
             width: double.infinity,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Flexible(
-                  child: Container(),
-                  flex: 2,
-                ),
                 SvgPicture.asset(
                   'assets/ic_instagram.svg',
                   color: primaryColor,
                   height: 64,
                 ),
-                const SizedBox(
-                  height: 64,
-                ),
+                const SizedBox(height: 64),
                 Stack(
                   children: [
                     _image != null
@@ -130,42 +129,32 @@ class _SignupScreenState extends State<SignupScreen> {
                     )
                   ],
                 ),
-                const SizedBox(
-                  height: 24,
-                ),
+                const SizedBox(height: 24),
                 TextFieldInput(
                   hintText: 'Enter your username',
                   textInputType: TextInputType.text,
                   textEditingController: _usernameController,
                 ),
-                const SizedBox(
-                  height: 24,
-                ),
+                const SizedBox(height: 24),
                 TextFieldInput(
                   hintText: 'Enter your email',
                   textInputType: TextInputType.emailAddress,
                   textEditingController: _emailController,
                 ),
-                const SizedBox(
-                  height: 24,
-                ),
+                const SizedBox(height: 24),
                 TextFieldInput(
                   hintText: 'Enter your password',
                   textInputType: TextInputType.text,
                   textEditingController: _passwordController,
                   isPass: true,
                 ),
-                const SizedBox(
-                  height: 24,
-                ),
+                const SizedBox(height: 24),
                 TextFieldInput(
                   hintText: 'Enter your bio',
                   textInputType: TextInputType.text,
                   textEditingController: _bioController,
                 ),
-                const SizedBox(
-                  height: 24,
-                ),
+                const SizedBox(height: 24),
                 InkWell(
                   child: Container(
                     child: !_isLoading
@@ -187,13 +176,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                   onTap: signUpUser,
                 ),
-                const SizedBox(
-                  height: 12,
-                ),
-                Flexible(
-                  child: Container(),
-                  flex: 2,
-                ),
+                const SizedBox(height: 12),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

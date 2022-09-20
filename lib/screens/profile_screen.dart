@@ -17,7 +17,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  var userData = {};
+  Map<String, dynamic>? userData = {};
   int postLen = 0;
   int followers = 0;
   int following = 0;
@@ -47,7 +47,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           .get();
 
       postLen = postSnap.docs.length;
-      userData = userSnap.data()!;
+      userData = userSnap.data();
       followers = userSnap.data()!['followers'].length;
       following = userSnap.data()!['following'].length;
       isFollowing = userSnap
@@ -75,7 +75,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             appBar: AppBar(
               backgroundColor: mobileBackgroundColor,
               title: Text(
-                userData['username'],
+                userData?['username'] ?? '',
               ),
               centerTitle: false,
             ),
@@ -90,7 +90,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           CircleAvatar(
                             backgroundColor: Colors.grey,
                             backgroundImage: NetworkImage(
-                              userData['photoUrl'],
+                              userData?['photoUrl'] ?? '',
                             ),
                             radius: 40,
                           ),
@@ -141,8 +141,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                   await FireStoreMethods()
                                                       .followUser(
                                                     FirebaseAuth.instance
-                                                        .currentUser!.uid,
-                                                    userData['uid'],
+                                                            .currentUser?.uid ??
+                                                        '',
+                                                    userData?['uid'],
                                                   );
 
                                                   setState(() {
@@ -161,7 +162,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                       .followUser(
                                                     FirebaseAuth.instance
                                                         .currentUser!.uid,
-                                                    userData['uid'],
+                                                    userData?['uid'],
                                                   );
 
                                                   setState(() {
@@ -183,8 +184,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           top: 15,
                         ),
                         child: Text(
-                          userData['username'],
-                          style: TextStyle(
+                          userData?['username'],
+                          style: const TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -195,7 +196,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           top: 1,
                         ),
                         child: Text(
-                          userData['bio'],
+                          userData?['bio'],
                         ),
                       ),
                     ],

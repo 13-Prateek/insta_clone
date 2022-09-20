@@ -41,4 +41,16 @@ class User {
         "followers": followers,
         "following": following,
       };
+
+  factory User.empty() {
+    return const User(
+      bio: '',
+      email: '',
+      followers: [],
+      following: [],
+      photoUrl: '',
+      uid: '',
+      username: '',
+    );
+  }
 }
