@@ -32,6 +32,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
 
       if (res != 'success') {
         showSnackBar(context, res);
+        print("Just a test");
       }
       setState(() {
         commentEditingController.text = "";
